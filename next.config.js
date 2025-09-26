@@ -1,9 +1,4 @@
 /** @type {import('next').NextConfig} */
-const path = require('path');
-
-// Disable the component-tagger-loader to fix source map issues
-// const LOADER = path.resolve(__dirname, 'src/visual-edits/component-tagger-loader.js');
-
 const nextConfig = {
   images: {
     remotePatterns: [
@@ -16,20 +11,12 @@ const nextConfig = {
         hostname: '**',
       },
     ],
+    unoptimized: false,
   },
-  // Removed invalid outputFileTracingRoot option
-  // Using webpack configuration instead of turbopack for Next.js 14 compatibility
-  webpack: (config, { isServer }) => {
-    // Disabled the component-tagger-loader to fix source map issues
-    // config.module.rules.push({
-    //   test: /\.(jsx|tsx)$/,
-    //   use: [LOADER],
-    //   exclude: /node_modules/,
-    // });
-    return config;
-  },
-  // Disable source maps to fix the invalid JSON errors
-  productionBrowserSourceMaps: false
+  // Disable source maps for production
+  productionBrowserSourceMaps: false,
+  // Optimize build performance
+  swcMinify: true,
 };
 
 module.exports = nextConfig;
