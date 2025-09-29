@@ -4,9 +4,9 @@ import { useEffect } from "react";
 
 const PerformanceOptimizer = () => {
   useEffect(() => {
-    // Prefetch critical resources
+    // Only run on client side
     if (typeof window !== "undefined") {
-      // Preload critical images
+      // Prefetch critical resources
       const criticalImages = [
         "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/object/public/project-uploads/5b4115a6-36aa-41a5-b13a-a309fd72f4fe/generated_images/spectacular-aerial-view-of-sigiriya-lion-3d4731f5-20250902140253.jpg",
       ];

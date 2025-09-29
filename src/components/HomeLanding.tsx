@@ -45,34 +45,47 @@ export default function HomeLanding() {
 
   // Memoized WhatsApp handlers
   const handleBookingClick = useCallback(() => {
-    const message =
-      "Hello! I'm interested in booking a Sri Lanka tour. Can you help me with packages and pricing?";
-    window.open(
-      `https://wa.me/94768118780?text=${encodeURIComponent(message)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    if (typeof window !== "undefined") {
+      const message =
+        "Hello! I'm interested in booking a Sri Lanka tour. Can you help me with packages and pricing?";
+      window.open(
+        `https://wa.me/94768118780?text=${encodeURIComponent(message)}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
   }, []);
 
   const handlePackageClick = useCallback(() => {
-    const message =
-      "Hi! I saw your website and I'm interested in planning a Sri Lanka tour. Can you share details about available packages, prices, and help me customize my trip?";
-    window.open(
-      `https://wa.me/94768118780?text=${encodeURIComponent(message)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
+    if (typeof window !== "undefined") {
+      const message =
+        "Hi! I saw your website and I'm interested in planning a Sri Lanka tour. Can you share details about available packages, prices, and help me customize my trip?";
+      window.open(
+        `https://wa.me/94768118780?text=${encodeURIComponent(message)}`,
+        "_blank",
+        "noopener,noreferrer"
+      );
+    }
   }, []);
 
-  const isJourneyInView = useInView(journeyRef, {
-    once: true,
-    margin: "-100px",
-  });
-  const isPackagesInView = useInView(packagesRef, {
+  // Call hooks unconditionally
+  const isJourneyInViewHook = useInView(journeyRef, {
     once: true,
     margin: "-100px",
   });
 
+  const isPackagesInViewHook = useInView(packagesRef, {
+    once: true,
+    margin: "-100px",
+  });
+
+  // Only use the results conditionally
+  const isJourneyInView =
+    typeof window !== "undefined" ? isJourneyInViewHook : false;
+  const isPackagesInView =
+    typeof window !== "undefined" ? isPackagesInViewHook : false;
+
+  // Initialize scroll values with default values for server-side rendering
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -714,7 +727,7 @@ export default function HomeLanding() {
           transition={{ duration: 30, repeat: Infinity, repeatType: "reverse" }}
           style={{
             backgroundImage:
-              "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnptMTIgMTJjMy4zMTQgMCA2LTIuNjg2IDYtNnMtMi42ODYtNi02LTZjLTMuMzE0IDAtNiAyLjY4Ni02IDZzMi42ODYgNiA2IDZ6TTEyIDQyYzMuMzE0IDAgNi0yLjY4NiA2LTZzLTIuNjg2LTYtNi02Yy0zLjMxNCAwLTYgMi42ODYtNiA2czIuNjg2IDYgNiA2em0xMi0xMmMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnptMCAxMmMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnptMTItMTJjMy4zMTQgMCA2LTIuNjg2IDYtNnMtMi42ODYtNi02LTZjLTMuMzE0IDAtNiAyLjY4Ni02IDZzMi42ODYgNiA2IDZ6IiBzdHJva2U9IiNGRkYiIHN0cm9rZS1vcGFjaXR5PSIuNSIvPjxwYXRoIGQ9Ik0zNiA0MmMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnptMTIgMGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnoiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii41Ii8+PC9nPjwvc3ZnPg==')",
+              "url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0zNiAxOGMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnptMTIgMTJjMy4zMTQgMCA2LTIuNjg2IDYtNnMtMi42ODYtNi02LTZjLTMuMzE0IDAtNiAyLjY4Ni02IDZzMi42ODYgNiA2IDZ6TTEyIDQyYzMuMzE0IDAgNi0yLjY4NiA2LTZzLTIuNjg2LTYtNi02Yy0zLjMxNCAwLTYgMi42ODYtNiA2czIuNjg2IDYgNiA2em0xMi0xMmMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnptMCAxMmMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnptMTItMTJjMy4zMTQgMCA2LTIuNjg2IDYtNnMtMi42ODYtNi02LTZjLTMzLjMxNCAwLTYgMi42ODYtNiA2czIuNjgyIDYgNiA2emIiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii41Ii8+PHBhdGQgZD0iTTEzNiA0MmMzLjMxNCAwIDYtMi42ODYgNi02cy0yLjY4Ni02LTYtNmMtMy4zMTQgMC02IDIuNjg2LTYgNnMyLjY4NiA2IDYgNnoiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLW9wYWNpdHk9Ii41Ii8+PC9nPjwvc3ZnPg==')",
             backgroundSize: "60px 60px",
           }}
         />

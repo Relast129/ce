@@ -32,24 +32,30 @@ export const SiteHeader = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
+    // Only run on client side
+    if (typeof window !== "undefined") {
+      const handleScroll = () => {
+        setIsScrolled(window.scrollY > 20);
+      };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+      window.addEventListener("scroll", handleScroll);
+      return () => window.removeEventListener("scroll", handleScroll);
+    }
   }, []);
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    // Only run on client side
+    if (typeof window !== "undefined") {
+      if (isMobileMenuOpen) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "unset";
+      }
 
-    return () => {
-      document.body.style.overflow = "unset";
-    };
+      return () => {
+        document.body.style.overflow = "unset";
+      };
+    }
   }, [isMobileMenuOpen]);
 
   const handleMobileMenuClose = () => {
@@ -130,6 +136,7 @@ export const SiteHeader = () => {
                 variant="outline"
                 size="sm"
                 onClick={() =>
+                  typeof window !== "undefined" &&
                   window.open(
                     "https://wa.me/94768118780",
                     "_blank",
@@ -167,7 +174,7 @@ export const SiteHeader = () => {
         </div>
 
         {/* Mobile Menu Overlay */}
-        {isMobileMenuOpen && (
+        {isMobileMenuOpen && typeof window !== "undefined" && (
           <div className="fixed inset-0 z-50 md:hidden lg:hidden">
             <div
               className="fixed inset-0 bg-black/20 backdrop-blur-sm"
@@ -209,11 +216,12 @@ export const SiteHeader = () => {
                     className="w-full justify-center text-sm"
                     onClick={() => {
                       handleMobileMenuClose();
-                      window.open(
-                        "https://wa.me/94768118780",
-                        "_blank",
-                        "noopener,noreferrer"
-                      );
+                      typeof window !== "undefined" &&
+                        window.open(
+                          "https://wa.me/94768118780",
+                          "_blank",
+                          "noopener,noreferrer"
+                        );
                     }}
                   >
                     WhatsApp Us

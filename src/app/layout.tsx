@@ -7,6 +7,8 @@ import { Toaster } from "sonner";
 import SocialMediaPanel from "@/components/SocialMediaPanel";
 import PerformanceOptimizer from "@/components/PerformanceOptimizer";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Ceyora Holidays | Luxury Sri Lanka Travel & Tours",
   description:

@@ -29,17 +29,20 @@ const SocialMediaPanel = () => {
 
   // Check if screen is mobile and auto-expand on desktop
   useEffect(() => {
-    const checkScreenSize = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-      // Auto-expand on desktop, collapsed on mobile
-      setIsExpanded(!mobile);
-    };
+    // Only run on client side
+    if (typeof window !== "undefined") {
+      const checkScreenSize = () => {
+        const mobile = window.innerWidth < 768;
+        setIsMobile(mobile);
+        // Auto-expand on desktop, collapsed on mobile
+        setIsExpanded(!mobile);
+      };
 
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
+      checkScreenSize();
+      window.addEventListener("resize", checkScreenSize);
 
-    return () => window.removeEventListener("resize", checkScreenSize);
+      return () => window.removeEventListener("resize", checkScreenSize);
+    }
   }, []);
 
   const socialLinks: SocialLink[] = useMemo(
@@ -91,12 +94,14 @@ const SocialMediaPanel = () => {
   );
 
   const handleSocialClick = useCallback((url: string) => {
-    if (url.startsWith("tel:") || url.startsWith("mailto:")) {
-      // For tel: and mailto: links, open directly
-      window.location.href = url;
-    } else {
-      // For external links, open in new tab with security attributes
-      window.open(url, "_blank", "noopener,noreferrer");
+    if (typeof window !== "undefined") {
+      if (url.startsWith("tel:") || url.startsWith("mailto:")) {
+        // For tel: and mailto: links, open directly
+        window.location.href = url;
+      } else {
+        // For external links, open in new tab with security attributes
+        window.open(url, "_blank", "noopener,noreferrer");
+      }
     }
   }, []);
 
@@ -106,6 +111,11 @@ const SocialMediaPanel = () => {
       setIsExpanded((prev) => !prev);
     }
   }, [isMobile]);
+
+  // Don't render on server side to avoid hydration issues
+  if (typeof window === "undefined") {
+    return null;
+  }
 
   return (
     <div className="fixed right-2 sm:right-4 top-1/2 -translate-y-1/2 z-50 flex items-center">
