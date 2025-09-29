@@ -1,3 +1,4 @@
+"use client";
 import SiteHeaderFooter from "@/components/SiteHeaderFooter";
 import { SiteFooter } from "@/components/SiteHeaderFooter";
 import HomeLanding from "@/components/HomeLanding";
